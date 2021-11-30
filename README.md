@@ -1,70 +1,89 @@
-# Getting Started with Create React App
+# 리덕스에서 사용되는 키워드 숙지하기
+>## 👉🏻 액션 (Action)
+>상태에 변화가 필요할 때 액션을 발생시킨다. (객체하나로 표현)<br/>
+>type을 필수로 그외의 값들은 개발자 마음대로 생성가능하다.
+```
+{
+  type: "TOGGLE_VALUE"
+}
+```
+```
+{
+  type: "ADD_TODO",
+  date: {
+    id: 0,
+    text: "리덕스 배우기"
+  }
+}
+```
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<br/>
 
-## Available Scripts
+>## 👉🏻 액션 생성함수 (Action Creator)
+>액션을 만드는 함수<br/>
+>parameter를 받아와 액션 객체 형태로 만들어준다.<br/>
+>**액션 생성함수를 만드는 이유?**<br/>
+>=> 컴포넌트에서 더욱 쉽게 액션을 발생시키기 위함이다.<br/>
+>보통 함수 앞에 export 키워드를 붙여서 다른 파일에서 불러와 사용한다.<br/>
+>**필수 아님**
+```
+export default addTodo(data) {
+  return {
+    type: "ADD_TODO",
+    data
+  };
+}
 
-In the project directory, you can run:
+// or
 
-### `yarn start`
+export const changeInput = text => ({
+  type: "CHANGE_INPUT",
+  text
+});
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<br/>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+> ## 👉🏻 리듀서 (Reducer)
+>변화를 일으키는 함수이다.<br/>
+>현재의 상태, 전달 받은 액션을 참고하여 새로운 상태를 만들어 반환한다.
+```
+// 두가지의 parameter를 받아온다.
+function reducer(state, action) {
+  // 상태 업데이트 로직
+  return aleredState;
+}
 
-### `yarn test`
+// 카운터를 위한 리듀서를 작성한다면 다음과 같이 작성가능하다.
+function counter(state, action) {
+  switch(action.type) {
+    case 'INCREASE':
+      return state + 1;
+    case 'DECREASE':
+      return state - 1;
+    default:
+      return state;
+```
+>useReducer에서는 default:에 throw new Error('Unhandled Action') 같이 에러를 발생시키도록 처리하는게 일반적이다.<br/>
+>redux의 reducer에선 기존 state를 그대로 반환하도록 작성해야 한다. <br/>여러개의 reducer를 만들고 이를 합쳐서 Root Reducer를 만들 수 있다. <br/>Root Reducer 안의 작은 reducer 들은 sub reducer라 한다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<br/>
 
-### `yarn build`
+> ## 👉🏻 스토어 (store)
+>리덕스에서는 한 애플리케이션 당 하나의 스토어를 만들게 됨<br/>
+>스토어 안에는 현재의 앱 상태, 리듀서가 들어있고 추가적으로 몇가지 내장 함수들이 존재한다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<br/>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+> ## 👉🏻 디스패치 (dispatch)
+>스토어의 내장함수, 액션을 발생시킨다.<br/>
+>이 함수에는 액션을 파라미터로 전달한다.<br/>
+>dispatch(action) 이런식으로!<br/>
+>호출을 하면 스토어는 리듀서 함수를 실행시켜 해당 액션을 처리하는 로직이 있다면 액션을 참고하여 새로운 상태를 만들어 준다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<br/>
 
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+> ## 👉🏻 구독 (subcribe)
+>스토어의 내장함수, 함수 형태의 값을 파라미터로 받아온다.<br/>
+>이 함수에 특정 함수를 전달해주면 액션이 디스패치 되었을 때 마다 전달해준 함수가 호출된다.<br/>
+>리액트에서는 react-redux 라이브러리에서 제공하는 connect함수나 useSelector Hook 을 사용하여 리덕스 스토어의 상태에 구독한다.
