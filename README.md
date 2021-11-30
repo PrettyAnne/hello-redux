@@ -2,12 +2,12 @@
 >## 👉🏻 액션 (Action)
 >상태에 변화가 필요할 때 액션을 발생시킨다. (객체하나로 표현)<br/>
 >type을 필수로 그외의 값들은 개발자 마음대로 생성가능하다.
-```
+```js
 {
   type: "TOGGLE_VALUE"
 }
 ```
-```
+```js
 {
   type: "ADD_TODO",
   date: {
@@ -26,7 +26,7 @@
 >=> 컴포넌트에서 더욱 쉽게 액션을 발생시키기 위함이다.<br/>
 >보통 함수 앞에 export 키워드를 붙여서 다른 파일에서 불러와 사용한다.<br/>
 >**필수 아님**
-```
+```js
 export default addTodo(data) {
   return {
     type: "ADD_TODO",
@@ -47,7 +47,7 @@ export const changeInput = text => ({
 > ## 👉🏻 리듀서 (Reducer)
 >변화를 일으키는 함수이다.<br/>
 >현재의 상태, 전달 받은 액션을 참고하여 새로운 상태를 만들어 반환한다.
-```
+```js
 // 두가지의 parameter를 받아온다.
 function reducer(state, action) {
   // 상태 업데이트 로직
